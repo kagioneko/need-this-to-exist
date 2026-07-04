@@ -29,6 +29,38 @@
 *   **Solution**: デスクの端に置ける、大きな赤い「非常停止スイッチ型」のUSB物理ボタン。押すとPC側で「指定したブラウザタブを一瞬で消し去り、ダミーのExcelスプレッドシートやソースコードを全画面表示」する。
 *   **Why it doesn't exist**: 自作キーボードの文脈で作れるが、一般人がPCに挿すだけで使える「オシャレで可愛い専用ガジェット」は市販されていない。
 *   **Status**: 💡 Idea (パトロン・開発者募集中)
+*   **🛠️ DIY Recipe (自分で作るレシピ)**:
+    *   **必要なハードウェア**:
+        1.  `Raspberry Pi Pico` (または任意のRP2040マイコンボード) ➔ 約500〜800円
+        2.  `非常停止スイッチ` (モメンタリ型 / 押している間だけONになるもの) ➔ 約300円
+        3.  `ジャンパワイヤ` 2本、`MicroUSBケーブル`
+    *   **配線図**:
+        *   スイッチの端子A ➔ Picoの `GP15` (Pin 20)
+        *   スイッチの端子B ➔ Picoの `GND` (任意のGroundピン)
+    *   **ソフトウェア (CircuitPythonサンプルコード)**:
+        PicoにCircuitPythonをインストールし、`code.py` として保存します。(`adafruit_hid` ライブラリが必要です)
+        ```python
+        import time
+        import board
+        import digitalio
+        import usb_hid
+        from adafruit_hid.keyboard import Keyboard
+        from adafruit_hid.keycode import Keycode
+
+        # GP15ピンをプルアップで初期化
+        button = digitalio.DigitalInOut(board.GP15)
+        button.direction = digitalio.Direction.INPUT
+        button.pull = digitalio.Pull.UP
+
+        kbd = Keyboard(usb_hid.devices)
+
+        while True:
+            if not button.value:  # ボタンが押された（GNDに接続された）時
+                # Windows用: Alt + F4 (Macの場合は Keycode.COMMAND, Keycode.W などに変更)
+                kbd.send(Keycode.ALT, Keycode.F4)
+                time.sleep(1)  # チャタリング＆連打防止用のウェイト
+            time.sleep(0.05)
+        ```
 
 ---
 
