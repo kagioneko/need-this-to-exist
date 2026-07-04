@@ -10,7 +10,7 @@
 支援が集まったアイデアは、私たちが実際に設計図（CAD）、基板データ、またはオープンソースコードを開発して公開します。
 
 *   **Buy Me a Coffee**: `https://www.buymeacoffee.com/your_username` (準備中)
-*   **GitHub Sponsors**: `https://github.com/sponsors/your_username` (準備中)
+*   **GitHub Sponsors**: [kagioneko](https://github.com/sponsors/kagioneko)
 
 ---
 
